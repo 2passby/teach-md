@@ -1,33 +1,35 @@
 const path = require('path')
+const eslintPlugin = require('eslint-webpack-plugin')
 module.exports = {
-  
-  mode:'development',
-  entry:{
-    app1:'./app.js'
+
+  mode: 'development',
+  entry: {
+    app1: './app.js'
   },
-  output:{
-    filename:'[name].[chunkhash:4].js',
-    path:path.resolve(__dirname,'dist')
+  output: {
+    filename: '[name].[chunkhash:4].js',
+    path: path.resolve(__dirname, 'dist')
   },
-  module:{
-    rules:[
+  module: {
+    rules: [
       {
-        test:/\.js$/,
-        use:{
-          loader:'babel-loader',
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+          
         }
       }
     ]
   },
-  plugins:[
-
+  plugins: [
+    new eslintPlugin({})
   ],
-  devServer:{
-   
-  },
-  resolve:{
+  devServer: {
 
   },
-  optimization:{
+  resolve: {
+
+  },
+  optimization: {
   }
 }

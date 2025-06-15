@@ -6,49 +6,41 @@
 
 mode
 
-模式，分为development 与 production 两种模式，production模式下自带代码压缩
+模式，分为 development 与 production 两种模式，production 模式下自带代码压缩
 
 ```javascript
-const path = require('path')
+const path = require("path")
 module.exports = {
   //mode分为开发模式与生产模式
-  mode:'development',
+  mode: "development",
   //打包入口，可以单入口，可以多入口，可以填数组，最好填对象
-  entry:{
-    app1:'./app.js'
+  entry: {
+    app1: "./app.js",
   },
   //打包文件的出口，filename为打包出的文件名，path为打包后的文件放置的地址
-  output:{
-    filename:'[name].[chunkhash:4].js',
-    path:path.resolve(__dirname,'dist')
+  output: {
+    filename: "[name].[chunkhash:4].js",
+    path: path.resolve(__dirname, "dist"),
   },
   //用于存放各种loader，实现打包后代码对各种文件的识别加载
-  module:{
-    rules:[
+  module: {
+    rules: [
       {
-        test:/\.js$/,
-        use:{
-          loader:'babel-loader',
-        }
-      }
-    ]
+        test: /\.js$/,
+        use: {
+          loader: "babel-loader",
+          //这里的options配置项目过多的时候，新建.babelrc文件，以json的形式，写入一个对象，内部是options的各种配置项
+        },
+      },
+    ],
   },
   //插件
-  plugins:[
-
-  ],
+  plugins: [],
   //开发服务
-  devServer:{
-   
-  },
+  devServer: {},
   //配置一些别名等操作，简化操作
-  resolve:{
-
-  },
+  resolve: {},
   //实现优化，比如文件分割等
-  optimization:{
-  }
+  optimization: {},
 }
-
 ```
-
