@@ -129,3 +129,42 @@ CSS 中伪类（Pseudo-class）和伪元素（Pseudo-element）的核心区别�
 - **关键区别**：伪类基于元素状态动态修改样式，不生成新元素；而伪元素可创建独立渲染的虚拟节点（如 `::before`），需配合 `content` 属性使用。实际开发中，二者常结合使用，例如通过 `.btn:hover::after` 实现悬停时动态图标效果。
 
  ，伪类和伪元素的核心区别在于其作用对象和功能：伪类（如:hover、:nth-child）通过单冒号语法（:）描述元素的特定状态或结构关系，作用于已存在的元素本身，用于动态响应交互或匹配DOM树中的特定条件；而伪元素（如::before、::after）通过双冒号语法（::）在元素内部创建虚拟的抽象节点（不会出现在DOM中），用于向选定元素添加样式化内容或修饰特定内容区块，本质上是对元素内容层的扩展和样式增强， 
+
+ ## css手写实现三角形
+
+伪元素法 + 边框实现三角形
+ ```javascript
+  <div class="triangle-container"></div>
+    <style>
+        .triangle-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        .triangle-container::before {
+            content: '';
+            position: absolute;
+            
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid #007bff;
+        }
+    </style>
+ ```
+边框实现三角形
+```javascript
+<body>
+    <div class="sanjiao"></div>
+    <style>
+        .sanjiao{
+            width: 0;
+            height: 0;
+            border-bottom: 100px solid yellow;
+            border-top:100px solid transparent; ;
+            border-right: 100px solid transparent;
+            border-left: 100px solid transparent;
+        }
+    </style>
+</body>
+```
