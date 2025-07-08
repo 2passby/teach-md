@@ -633,4 +633,48 @@ function mypromiseall(promises) {
 </html>
 
 ```
+## 异步任务调度队列
+
+ class AsyncQueue {
+            constructor(maxConcurrent) {
+                this.maxConcurrent = maxConcurrent; // 最大并发数
+                this.running = 0; // 当前正在运行的任务数
+                this.queue = []; // 任务队列
+            }
+
+            addTask(task) {
+                return new Promise((resolve, reject) => {
+                    const runTask = async () => {
+                        try {
+                            this.running++;
+                            const result = await task(); // 执行任务
+                            resolve(result); // 任务完成，返回结果
+                        } catch (error) {
+                            reject(error); // 任务失败，抛出错误
+                        } finally {
+                            this.running--; // 任务结束，减少运行数
+                            this.processQueue(); // 处理队列中的下一个任务
+                        }
+                    };
+
+                    // 如果当前运行的任务数小于最大并发数，直接运行任务
+                    if (this.running < this.maxConcurrent) {
+                        runTask();
+                    } else {
+                        // 否则，将任务加入队列
+                        this.queue.push(runTask);
+                    }
+                });
+            }
+
+            processQueue() {
+                // 检查队列中是否有任务，并且当前运行的任务数是否小于最大并发数
+                while (this.queue.length > 0 && this.running < this.maxConcurrent) {
+                    const nextTask = this.queue.shift(); // 取出队列中的下一个任务
+                    nextTask(); // 运行任务
+                }
+            }
+        }
+
+
 
