@@ -582,6 +582,8 @@ function mypromiseall(promises) {
 
 ##  手写红绿灯转化-promise
 
+
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -678,3 +680,48 @@ function mypromiseall(promises) {
 
 
 
+## 发布者订阅者模式实现
+  ```javascript
+   //手写实现发布者订阅者模式
+
+        class publish {
+            constructor() {
+                this.list = {}
+            }
+            emit(key, ...args) {
+                if (this.list[key] && this.list[key].length > 0) {
+                    for (let callback of this.list[key]) {
+                        callback.call(this, ...args)
+                    }
+                }
+                else {
+                    console.log('notfind-function')
+                }
+            }
+            on(key, callback) {
+                if (this.list[key]) {
+                    this.list[key].push(callback)
+                }
+                else {
+                    this.list[key] = []
+                    this.list[key].push(callback)
+                }
+            }
+            off(key, callback) {
+                let index = this.list[key].indexOf(callback)
+                if (index !== -1) {
+                    this.list[key].splice(index, 1)
+                }
+            }
+        }
+        const vue = new publish()
+        const fn = (data) => {
+            console.log("传入的数据", data)
+        }
+        vue.on('hyd', fn)
+        vue.emit('hyd', 'dacongming')
+        vue.off('hyd', fn)
+        vue.emit('hyd', 'dacongming')
+
+ 
+ ```
