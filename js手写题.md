@@ -725,3 +725,34 @@ function mypromiseall(promises) {
 
  
  ```
+
+ ## 扁平对象转嵌套对象
+
+
+         ```javascript
+  //转化为嵌套对象
+        let myobj = { "a.b.c": 123, "a.c": 456 }
+        function nestobj(myobj) {
+            let obj = {}
+            for (let key in myobj) {
+                if (myobj.hasOwnProperty(key)) {
+                    let current = obj
+                    let arr = key.split('.')
+                    let last = arr.length - 1
+                    arr.forEach((item, index) => {
+                        if (index === last) {
+                            current[item] = myobj[key]
+                        }
+                        else {
+                            if (!current[item]) {
+                                current[item] = {}
+                            }
+                            current = current[item]
+                        }
+                    })
+                }
+            }
+            return obj
+        }
+        console.log(nestobj(myobj))
+ ```
