@@ -636,7 +636,7 @@ function mypromiseall(promises) {
 
 ```
 ## 异步任务调度队列
-
+```javascript
  class AsyncQueue {
             constructor(maxConcurrent) {
                 this.maxConcurrent = maxConcurrent; // 最大并发数
@@ -677,7 +677,7 @@ function mypromiseall(promises) {
                 }
             }
         }
-
+```
 
 
 ## 发布者订阅者模式实现
@@ -756,3 +756,35 @@ function mypromiseall(promises) {
         }
         console.log(nestobj(myobj))
  ```
+
+## 千分位格式化小数
+```javascript
+ const number = 12343.96
+        function fomat(number) {
+            let index = String(number).indexOf('.')
+            let arr = String(number).split('.')
+            let pos
+            let oparr = []
+            if (index === -1) {
+                pos = number.length - 3
+                oparr = arr
+            }
+            else {
+                pos = arr[0].length - 3
+                oparr = arr[0].split('')
+            }
+            while (pos >= 0) {
+                oparr.splice(pos, 0, ',')
+                pos -= 3
+            }
+            console.log('oparr', oparr)
+
+            return arr[1] ? oparr.join('') + '.' + arr[1] : oparr.join('')
+        }
+        console.log('format', fomat(number))
+        console.log('format', fomat(123456789))
+        console.log('format', fomat(654321))
+        console.log('format', fomat(1314520.134))
+        console.log('format', fomat(15679.24))
+        console.log('format', fomat(16579.46))
+```

@@ -168,3 +168,9 @@ CSS 中伪类（Pseudo-class）和伪元素（Pseudo-element）的核心区别�
     </style>
 </body>
 ```
+
+## inline-block的空隙原因
+
+渲染了空白字符作为空格导致元素之间出现了间隙
+1.将父元素的font-size 变为0，利用空白字符也算字体的特性
+2.去除多个inline-block元素的标签之间的空行，紧凑去除
