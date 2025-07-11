@@ -461,6 +461,7 @@ Vue对**列表节点**的Diff采用**双端指针**（头尾各两个指针）�
 
 ## Vite为什么比webpack快？
 
+
 1. 开发阶段的快速启动
 
 - **基于浏览器原生 ES 模块（ESM）**
@@ -492,6 +493,13 @@ Vue对**列表节点**的Diff采用**双端指针**（头尾各两个指针）�
 
 Vite 之所以比 Webpack 快，主要是在开发阶段利用浏览器原生 ESM 实现按需编译和快速启动，以及在生产环境借助 Rollup 等工具进行高效构建。这种设计使得开发和构建过程更加高效，提升了整体的开发体验。
 
+
+
+
+
+## vite如何配置语法降级
+
+在 Vite 中配置语法降级以兼容低版本浏览器（如 IE11），主要借助 @vitejs/plugin-legacy 插件。这涉及到两步关键操作：插件的安装与配置。先通过 npm install @vitejs/plugin-legacy --save-dev 命令完成插件安装。随后，在 vite.config.js 文件中，利用 legacy 函数引入该插件，并通过 targets 属性精准指定目标浏览器，设置为 ['ie >= 9'] 可确保语法降级到 ES5。此外，还可依据项目需求，借助 polyfills 和 additionalLegacyPolyfills 属性手动添加所需 polyfill，像这样：polyfills: ['es.symbol', 'es.promise']。这种配置让 Vite 构建时，把代码转为低版本浏览器可执行的形式，从而解决跨浏览器兼容性问题。
 ## Tree Shaking 的核心原理
 
 Tree Shaking 的本质是通过 **静态代码分析** 移除 JavaScript 中未被使用的代码（Dead Code）。其实现依赖以下关键点：

@@ -174,3 +174,11 @@ CSS 中伪类（Pseudo-class）和伪元素（Pseudo-element）的核心区别�
 渲染了空白字符作为空格导致元素之间出现了间隙
 1.将父元素的font-size 变为0，利用空白字符也算字体的特性
 2.去除多个inline-block元素的标签之间的空行，紧凑去除
+
+
+## html中的meta标签对seo有什么帮助
+<meta> 标签在 HTML 中对 SEO 的主要帮助有以下几点：
+字符集声明 ：<meta charset="UTF-8"> 确保网页内容正确显示，避免乱码，使搜索引擎能准确抓取和理解文本内容。
+视口设置 ：<meta name="viewport" content="width=device-width, initial-scale=1.0"> 保证网页在移动设备上良好显示，提升移动端用户体验，间接有利于 SEO。
+网页描述 ：<meta name="description" content="网页描述内容"> 为网页提供简介，虽不直接影响排名，但吸引用户点击，提高点击率，间接助力 SEO。
+关键词（可选） ：<meta name="keywords" content="关键词列表"> 曾对 SEO 重要，现虽作用减弱，但合理设置仍可辅助搜索引擎理解网页主题。
