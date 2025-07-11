@@ -788,3 +788,24 @@ function mypromiseall(promises) {
         console.log('format', fomat(15679.24))
         console.log('format', fomat(16579.46))
 ```
+
+## 手写实现call函数
+
+```javascript
+
+Function.prototype.myCall = function (context = window, ...args) {
+  if (typeof this !== 'function') {
+    throw new TypeError('myCall is not a function');
+  }
+  context.tempFunc = this;
+  const result = context.tempFunc(...args);
+  delete context.tempFunc;
+  return result;
+};
+
+Function.prototype.mybind = function(context,...args){
+  return function(...callargs){
+    return this.myCall(context,...args,...callargs)
+  }
+}
+```

@@ -553,3 +553,7 @@ Tree Shaking 的本质是通过 **静态代码分析** 移除 JavaScript 中未�
 - **解决方案**：
   - 使用 `Vue.set(arr, index, value)` 或 `arr.splice(index, 1, value)`。
   - 原理：`Vue.set` 内部会手动调用 `dep.notify()`。
+
+## vue2实现数组下标响应式的方法
+
+vue.set，可以设置该数组中，某个指定index下的新值，触发响应式 或者  vue.forceUpdate，会强制将视图刷新
