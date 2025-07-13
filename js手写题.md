@@ -22,7 +22,7 @@ const testdata = [
   { id: "14", name: "⼩强", pid: "05", job: "测试⼯程师" },
   { id: "15", name: "⼩涛", pid: "06", job: "运维⼯程师" },
 ]
-//暴力递归实现数组转树
+//暴力递归实现数组转树，一定要记住 reduce传入的回调需要有返回值
 const arrayToTree = (arr, pid) => {
   return arr.reduce((pre, cur) => {
     if (cur.pid === pid) {
@@ -469,37 +469,35 @@ function deepclone(obj) {
 ## 数组扁平化（flat）
 
 ```javascript
-<script>
-    let arr = [
-      1,
-      2,
-      3,
-      [1, 2, 3, 4, 5],
-      [1, [1, 2, 3, [1, 4]]],
-      5,
-      6,
-      7,
-      8,
-      9,
-      7,
-      1,
-      0,
-      2,
-    ]
-    Array.prototype.flatten = function () {
-      let flat = []
-      for (let v of this) {
-        if (Array.isArray(v)) {
-          flat = flat.concat(v.flatten())
-        } else {
-          flat.push(v)
-        }
-      }
-      return flat
+let arr = [
+  1,
+  2,
+  3,
+  [1, 2, 3, 4, 5],
+  [1, [1, 2, 3, [1, 4]]],
+  5,
+  6,
+  7,
+  8,
+  9,
+  7,
+  1,
+  0,
+  2,
+]
+Array.prototype.flatten = function () {
+  let flat = []
+  for (let v of this) {
+    if (Array.isArray(v)) {
+      flat = flat.concat(v.flatten())
+    } else {
+      flat.push(v)
     }
-    const res = arr.flatten()
-    console.log(res)
-  </script>
+  }
+  return flat
+}
+const res = arr.flatten()
+console.log(res)
 ```
 
 ## 对象扁平化（flat）
@@ -745,6 +743,12 @@ console.log(nestobj(myobj))
 ````
 
 ## 千分位格式化小数
+
+arr.splice(i, 0, ",") 的具体含义 ：
+i：表示在数组 arr 的索引 i 位置前插入元素。
+0：表示不删除任何元素。
+","：表示要插入的元素是一个逗号。
+
 ```javascript
 const number = 12343.96
        function fomat(number) {
@@ -775,6 +779,36 @@ const number = 12343.96
        console.log('format', fomat(15679.24))
        console.log('format', fomat(16579.46))
 ````
+
+```javascript
+const num = 123456789.123
+
+function myformat(num) {
+  let str = String(num)
+  let pos = str.indexOf(".")
+  let end
+  let arr
+  if (pos === -1) {
+    end = str.length - 1
+    arr = str.split("")
+  } else {
+    end = pos - 1
+    arr = str.split(".")[0].split("")
+  }
+  for (let i = end - 2; i > 0; i -= 3) {
+    arr.splice(i, 0, ",")
+  }
+  return pos === -1 ? arr.join("") : arr.join("") + "." + str.slice(pos + 1)
+}
+// 示例 1：整数
+console.log(myformat(12345678)) // 输出：12,345,678
+
+// 示例 2：带小数的数字
+console.log(myformat(12345678.9012)) // 输出：12,345,678.9012
+
+// 示例 3：小数部分过长
+console.log(myformat(12345678.123456789)) // 输出：12,345,678.123456789（小数部分未处理）
+```
 
 ## 手写实现 call 函数
 
