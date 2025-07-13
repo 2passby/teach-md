@@ -1,72 +1,67 @@
- 
-
-
-
-## js手写题
+## js 手写题
 
 ## 实现数组转树的两种方法
 
 ### 1.暴力递归
 
 ```javascript
- const testdata = [
-      { id: "01", name: "张⼤⼤", pid: null, job: "项⽬经理" },
-      { id: "02", name: "⼩亮", pid: "01", job: "产品leader" },
-      { id: "03", name: "⼩美", pid: "01", job: "UIleader" },
-      { id: "04", name: "⽼⻢", pid: "01", job: "技术leader" },
-      { id: "05", name: "⽼王", pid: "01", job: "测试leader" },
-      { id: "06", name: "⽼李", pid: "01", job: "运维leader" },
-      { id: "07", name: "⼩丽", pid: "02", job: "产品经理" },
-      { id: "08", name: "⼤光", pid: "02", job: "产品经理" },
-      { id: "09", name: "⼩⾼", pid: "03", job: "UI设计师" },
-      { id: "10", name: "⼩刘", pid: "04", job: "前端⼯程师" },
-      { id: "11", name: "⼩华", pid: "04", job: "后端⼯程师" },
-      { id: "12", name: "⼩李", pid: "04", job: "后端⼯程师" },
-      { id: "13", name: "⼩赵", pid: "05", job: "测试⼯程师" },
-      { id: "14", name: "⼩强", pid: "05", job: "测试⼯程师" },
-      { id: "15", name: "⼩涛", pid: "06", job: "运维⼯程师" },
-    ]
-    //暴力递归实现数组转树
-    const arrayToTree = (arr, pid) => {
-      return arr.reduce((pre, cur) => {
-        if (cur.pid === pid) {
-          const children = arrayToTree(arr, cur.id)
-          if (children.length) {
-            cur.children = children
-          }
-          pre.push(cur)
-        }
-        return pre
-      }, [])
+const testdata = [
+  { id: "01", name: "张⼤⼤", pid: null, job: "项⽬经理" },
+  { id: "02", name: "⼩亮", pid: "01", job: "产品leader" },
+  { id: "03", name: "⼩美", pid: "01", job: "UIleader" },
+  { id: "04", name: "⽼⻢", pid: "01", job: "技术leader" },
+  { id: "05", name: "⽼王", pid: "01", job: "测试leader" },
+  { id: "06", name: "⽼李", pid: "01", job: "运维leader" },
+  { id: "07", name: "⼩丽", pid: "02", job: "产品经理" },
+  { id: "08", name: "⼤光", pid: "02", job: "产品经理" },
+  { id: "09", name: "⼩⾼", pid: "03", job: "UI设计师" },
+  { id: "10", name: "⼩刘", pid: "04", job: "前端⼯程师" },
+  { id: "11", name: "⼩华", pid: "04", job: "后端⼯程师" },
+  { id: "12", name: "⼩李", pid: "04", job: "后端⼯程师" },
+  { id: "13", name: "⼩赵", pid: "05", job: "测试⼯程师" },
+  { id: "14", name: "⼩强", pid: "05", job: "测试⼯程师" },
+  { id: "15", name: "⼩涛", pid: "06", job: "运维⼯程师" },
+]
+//暴力递归实现数组转树
+const arrayToTree = (arr, pid) => {
+  return arr.reduce((pre, cur) => {
+    if (cur.pid === pid) {
+      const children = arrayToTree(arr, cur.id)
+      if (children.length) {
+        cur.children = children
+      }
+      pre.push(cur)
     }
-    let tree = arrayToTree(testdata, null)
-    console.log(tree)
+    return pre
+  }, [])
+}
+let tree = arrayToTree(testdata, null)
+console.log(tree)
 ```
 
 ### 2.哈希映射实现
 
 ```javascript
-
-    //哈希表实现数组转树
-    const arrayToTreeHash = (arr) => {
-      let tree = []
-      let map = new Map()
-      arr.forEach((item) => {
-        map.set(item.id, { ...item, children: [] })
-      })
-      arr.forEach((item) => {
-        const node = map.get(item.id)
-        const parentNode = map.get(item.pid)
-        if (parentNode) {
-          parentNode.children.push(node)
-        } else {
-          tree.push(node)
-        }
-      })
-      return tree
+//哈希表实现数组转树
+const arrayToTreeHash = (arr) => {
+  let tree = []
+  let map = new Map()
+  arr.forEach((item) => {
+    map.set(item.id, { ...item, children: [] })
+  })
+  arr.forEach((item) => {
+    const node = map.get(item.id)
+    const parentNode = map.get(item.pid)
+    if (parentNode) {
+      parentNode.children.push(node)
+    } else {
+      tree.push(node)
     }
-    let tree2 = arrayToTreeHash(testdata)
-    console.log(tree2)
+  })
+  return tree
+}
+let tree2 = arrayToTreeHash(testdata)
+console.log(tree2)
 ```
 
 ## 树转数组的两种方法
@@ -74,49 +69,49 @@
 ### 递归实现
 
 ```javascript
- 	//树转数组
-    const TreeToArray = (tree) => {
-      return tree.reduce((prev, cur) => {
-        if (!cur.children) {
-          prev.push(cur)
-        } else {
-          let subList = TreeToArray(cur.children)
-          delete cur.children
-          prev.push(cur, ...subList)
-        }
-        return prev
-      }, [])
+//树转数组
+const TreeToArray = (tree) => {
+  return tree.reduce((prev, cur) => {
+    if (!cur.children) {
+      prev.push(cur)
+    } else {
+      let subList = TreeToArray(cur.children)
+      delete cur.children
+      prev.push(cur, ...subList)
     }
+    return prev
+  }, [])
+}
 ```
 
-### 队列bfs遍历实现
+### 队列 bfs 遍历实现
 
 ```javascript
- //树转数组
-    const treetoarray = (tree) => {
-      let qu = []
-      let res = []
-      qu.push(tree[0])
-      while (qu.length) {
-        let top = qu.shift()
-        if (top.children) { 
-          for (let i = 0; i < top.children.length; i++) {
-            qu.push(top.children[i])
-          }
-        }
-            //删除子项目，子项目全加入到队列中了
-        delete top.children
-        res.push(top)
+//树转数组
+const treetoarray = (tree) => {
+  let qu = []
+  let res = []
+  qu.push(tree[0])
+  while (qu.length) {
+    let top = qu.shift()
+    if (top.children) {
+      for (let i = 0; i < top.children.length; i++) {
+        qu.push(top.children[i])
       }
-      return res
     }
+    //删除子项目，子项目全加入到队列中了
+    delete top.children
+    res.push(top)
+  }
+  return res
+}
 ```
 
 ## 防抖与节流
 
 事件频繁触发时，减少事件的执行次数
 
-防抖：只执行最后一次（input监听输入）
+防抖：只执行最后一次（input 监听输入）
 
 节流：有规律的执行（拖拽，scroll）
 
@@ -170,21 +165,21 @@
 
 ```javascript
 function debounce(fn, delay, immediate = false) {
-      let timer = null
-      let flag = false
-      return function (...args) {
-        if (timer) clearTimeout(timer)
-        if (immediate && !flag) {
-          fn.call(this, ...args)
-          flag = true
-        } else {
-          timer = setTimeout(() => {
-            fn.call(this, ...args)
-            flag = false
-          }, delay)
-        }
-      }
+  let timer = null
+  let flag = false
+  return function (...args) {
+    if (timer) clearTimeout(timer)
+    if (immediate && !flag) {
+      fn.call(this, ...args)
+      flag = true
+    } else {
+      timer = setTimeout(() => {
+        fn.call(this, ...args)
+        flag = false
+      }, delay)
     }
+  }
+}
 ```
 
 ### 实现节流
@@ -267,47 +262,47 @@ function debounce(fn, delay, immediate = false) {
 
 ```
 
-## 实现Promise.all
+## 实现 Promise.all
 
 ```javascript
 function mypromiseall(promises) {
-      try {
-        let newpromises = Array.from(promises)
-        let len = newpromises.length
-        let res = []
-        let completed = 0
+  try {
+    let newpromises = Array.from(promises)
+    let len = newpromises.length
+    let res = []
+    let completed = 0
 
-        return new Promise((resolve, reject) => {
-          if (len === 0) resolve(res)
-          for (let i = 0; i < len; i++) {
-            Promise.resolve(newpromises[i])
-              .then((data) => {
-                res[i] = data
-                completed++
-                if (completed === len) resolve(res)
-              })
-              .catch((err) => {
-                reject(err)
-              })
-          }
-        })
-      } catch (err) {
-        return Promise.reject(err)
+    return new Promise((resolve, reject) => {
+      if (len === 0) resolve(res)
+      for (let i = 0; i < len; i++) {
+        Promise.resolve(newpromises[i])
+          .then((data) => {
+            res[i] = data
+            completed++
+            if (completed === len) resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
       }
-    }
-    const promises = [
-      new Promise((resolve) => setTimeout(() => resolve("First"), 1000)),
-      new Promise((resolve) => setTimeout(() => resolve("Third"), 500)),
-      new Promise((resolve) => setTimeout(() => resolve("fouth"), 500)),
-    ]
-    mypromiseall(promises)
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => console.log(err)) 
+    })
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}
+const promises = [
+  new Promise((resolve) => setTimeout(() => resolve("First"), 1000)),
+  new Promise((resolve) => setTimeout(() => resolve("Third"), 500)),
+  new Promise((resolve) => setTimeout(() => resolve("fouth"), 500)),
+]
+mypromiseall(promises)
+  .then((res) => {
+    console.log(res)
+  })
+  .catch((err) => console.log(err))
 ```
 
-## 实现 Instanceof判断类型
+## 实现 Instanceof 判断类型
 
 ```javascript
 <!DOCTYPE html>
@@ -438,39 +433,37 @@ function mypromiseall(promises) {
 ## 实现对象深拷贝
 
 ```javascript
+const obj = {
+  name: "123",
+  age: 12,
 
- 	const obj = {
-      name: "123",
-      age: 12,
-        
-      colors: ["red", "blue", "green"],
-      friends: {
-        number: "1783706",
-        home: "jiaxian",
-        group: {
-          id: 1,
-        },
-      },
-    }
-  function deepclone(obj) {
-      if (obj instanceof Date) return new Date(obj)
-      if (obj instanceof RegExp) return new RegExp(obj)
-      if (obj instanceof Function)
-        return function (...args) {
-          obj.call(this, ...args)
-        }
-
-      if (obj === null || typeof obj !== "object") return obj
-      let newobj = Array.isArray(obj) ? [] : {}
-      for (let key in obj) {
-          //过滤掉原型链上的属性
-        if (obj.hasOwnProperty(key)) {
-          newobj[key] = deepclone(obj[key])
-        }
-      }
-      return newobj
+  colors: ["red", "blue", "green"],
+  friends: {
+    number: "1783706",
+    home: "jiaxian",
+    group: {
+      id: 1,
+    },
+  },
+}
+function deepclone(obj) {
+  if (obj instanceof Date) return new Date(obj)
+  if (obj instanceof RegExp) return new RegExp(obj)
+  if (obj instanceof Function)
+    return function (...args) {
+      obj.call(this, ...args)
     }
 
+  if (obj === null || typeof obj !== "object") return obj
+  let newobj = Array.isArray(obj) ? [] : {}
+  for (let key in obj) {
+    //过滤掉原型链上的属性
+    if (obj.hasOwnProperty(key)) {
+      newobj[key] = deepclone(obj[key])
+    }
+  }
+  return newobj
+}
 ```
 
 ## 数组扁平化（flat）
@@ -509,52 +502,50 @@ function mypromiseall(promises) {
   </script>
 ```
 
-##  对象扁平化（flat）
+## 对象扁平化（flat）
 
 ```javascript
- const obj = {
-      a: 1,
-      b: {
-        c: 2,
-        d: { e: 3 },
-      },
-      f: [4, 5],
-    }
-    function objectFlat(obj = {}) {
-      let res = {}
-      function flat(obj, preKey) {
-        Object.entries(obj).forEach(([key, val]) => {
-          let newkey = preKey ? `${preKey}.${key}` : key
-          if (typeof val === "object") {
-            flat(val, newkey)
-          } else {
-            res[newkey] = val
-          }
-        })
+const obj = {
+  a: 1,
+  b: {
+    c: 2,
+    d: { e: 3 },
+  },
+  f: [4, 5],
+}
+function objectFlat(obj = {}) {
+  let res = {}
+  function flat(obj, preKey) {
+    Object.entries(obj).forEach(([key, val]) => {
+      let newkey = preKey ? `${preKey}.${key}` : key
+      if (typeof val === "object") {
+        flat(val, newkey)
+      } else {
+        res[newkey] = val
       }
-      flat(obj)
-      return res
-    }
+    })
+  }
+  flat(obj)
+  return res
+}
 
-    Object.prototype.flatten = function (oldkey) {
-      let res = {}
-      Object.entries(this).forEach(([key, value]) => {
-        let newkey = oldkey ? `${oldkey}.${key}` : key
-        if (typeof value === "object") {
-          let newobj = value.flatten(newkey)
-          res = { ...res, ...newobj }
-        } else {
-          res[newkey] = value
-        }
-      })
-      return res
+Object.prototype.flatten = function (oldkey) {
+  let res = {}
+  Object.entries(this).forEach(([key, value]) => {
+    let newkey = oldkey ? `${oldkey}.${key}` : key
+    if (typeof value === "object") {
+      let newobj = value.flatten(newkey)
+      res = { ...res, ...newobj }
+    } else {
+      res[newkey] = value
     }
-    console.log(objectFlat(obj))
+  })
+  return res
+}
+console.log(objectFlat(obj))
 ```
 
-
-
-## new运算符实现
+## new 运算符实现
 
 ```javascript
  <script>
@@ -580,9 +571,7 @@ function mypromiseall(promises) {
   </script>
 ```
 
-##  手写红绿灯转化-promise
-
-
+## 手写红绿灯转化-promise
 
 ```html
 <!DOCTYPE html>
@@ -633,179 +622,264 @@ function mypromiseall(promises) {
     }, 13000)
   </script>
 </html>
-
 ```
+
 ## 异步任务调度队列
+
 ```javascript
- class AsyncQueue {
-            constructor(maxConcurrent) {
-                this.maxConcurrent = maxConcurrent; // 最大并发数
-                this.running = 0; // 当前正在运行的任务数
-                this.queue = []; // 任务队列
-            }
+class AsyncQueue {
+  constructor(maxConcurrent) {
+    this.maxConcurrent = maxConcurrent // 最大并发数
+    this.running = 0 // 当前正在运行的任务数
+    this.queue = [] // 任务队列
+  }
 
-            addTask(task) {
-                return new Promise((resolve, reject) => {
-                    const runTask = async () => {
-                        try {
-                            this.running++;
-                            const result = await task(); // 执行任务
-                            resolve(result); // 任务完成，返回结果
-                        } catch (error) {
-                            reject(error); // 任务失败，抛出错误
-                        } finally {
-                            this.running--; // 任务结束，减少运行数
-                            this.processQueue(); // 处理队列中的下一个任务
-                        }
-                    };
-
-                    // 如果当前运行的任务数小于最大并发数，直接运行任务
-                    if (this.running < this.maxConcurrent) {
-                        runTask();
-                    } else {
-                        // 否则，将任务加入队列
-                        this.queue.push(runTask);
-                    }
-                });
-            }
-
-            processQueue() {
-                // 检查队列中是否有任务，并且当前运行的任务数是否小于最大并发数
-                while (this.queue.length > 0 && this.running < this.maxConcurrent) {
-                    const nextTask = this.queue.shift(); // 取出队列中的下一个任务
-                    nextTask(); // 运行任务
-                }
-            }
+  addTask(task) {
+    return new Promise((resolve, reject) => {
+      const runTask = async () => {
+        try {
+          this.running++
+          const result = await task() // 执行任务
+          resolve(result) // 任务完成，返回结果
+        } catch (error) {
+          reject(error) // 任务失败，抛出错误
+        } finally {
+          this.running-- // 任务结束，减少运行数
+          this.processQueue() // 处理队列中的下一个任务
         }
-```
+      }
 
+      // 如果当前运行的任务数小于最大并发数，直接运行任务
+      if (this.running < this.maxConcurrent) {
+        runTask()
+      } else {
+        // 否则，将任务加入队列
+        this.queue.push(runTask)
+      }
+    })
+  }
+
+  processQueue() {
+    // 检查队列中是否有任务，并且当前运行的任务数是否小于最大并发数
+    while (this.queue.length > 0 && this.running < this.maxConcurrent) {
+      const nextTask = this.queue.shift() // 取出队列中的下一个任务
+      nextTask() // 运行任务
+    }
+  }
+}
+```
 
 ## 发布者订阅者模式实现
-  ```javascript
-   //手写实现发布者订阅者模式
 
-        class publish {
-            constructor() {
-                this.list = {}
-            }
-            emit(key, ...args) {
-                if (this.list[key] && this.list[key].length > 0) {
-                    for (let callback of this.list[key]) {
-                        callback.call(this, ...args)
-                    }
-                }
-                else {
-                    console.log('notfind-function')
-                }
-            }
-            on(key, callback) {
-                if (this.list[key]) {
-                    this.list[key].push(callback)
-                }
-                else {
-                    this.list[key] = []
-                    this.list[key].push(callback)
-                }
-            }
-            off(key, callback) {
-                let index = this.list[key].indexOf(callback)
-                if (index !== -1) {
-                    this.list[key].splice(index, 1)
-                }
-            }
-        }
-        const vue = new publish()
-        const fn = (data) => {
-            console.log("传入的数据", data)
-        }
-        vue.on('hyd', fn)
-        vue.emit('hyd', 'dacongming')
-        vue.off('hyd', fn)
-        vue.emit('hyd', 'dacongming')
+```javascript
+//手写实现发布者订阅者模式
 
- 
- ```
+class publish {
+  constructor() {
+    this.list = {}
+  }
+  emit(key, ...args) {
+    if (this.list[key] && this.list[key].length > 0) {
+      for (let callback of this.list[key]) {
+        callback.call(this, ...args)
+      }
+    } else {
+      console.log("notfind-function")
+    }
+  }
+  on(key, callback) {
+    if (this.list[key]) {
+      this.list[key].push(callback)
+    } else {
+      this.list[key] = []
+      this.list[key].push(callback)
+    }
+  }
+  off(key, callback) {
+    let index = this.list[key].indexOf(callback)
+    if (index !== -1) {
+      this.list[key].splice(index, 1)
+    }
+  }
+}
+const vue = new publish()
+const fn = (data) => {
+  console.log("传入的数据", data)
+}
+vue.on("hyd", fn)
+vue.emit("hyd", "dacongming")
+vue.off("hyd", fn)
+vue.emit("hyd", "dacongming")
+```
 
- ## 扁平对象转嵌套对象
-
+## 扁平对象转嵌套对象
 
          ```javascript
-  //转化为嵌套对象
-        let myobj = { "a.b.c": 123, "a.c": 456 }
-        function nestobj(myobj) {
-            let obj = {}
-            for (let key in myobj) {
-                if (myobj.hasOwnProperty(key)) {
-                    let current = obj
-                    let arr = key.split('.')
-                    let last = arr.length - 1
-                    arr.forEach((item, index) => {
-                        if (index === last) {
-                            current[item] = myobj[key]
-                        }
-                        else {
-                            if (!current[item]) {
-                                current[item] = {}
-                            }
-                            current = current[item]
-                        }
-                    })
-                }
-            }
-            return obj
-        }
-        console.log(nestobj(myobj))
- ```
+
+//转化为嵌套对象
+let myobj = { "a.b.c": 123, "a.c": 456 }
+function nestobj(myobj) {
+let obj = {}
+for (let key in myobj) {
+if (myobj.hasOwnProperty(key)) {
+let current = obj
+let arr = key.split('.')
+let last = arr.length - 1
+arr.forEach((item, index) => {
+if (index === last) {
+current[item] = myobj[key]
+}
+else {
+if (!current[item]) {
+current[item] = {}
+}
+current = current[item]
+}
+})
+}
+}
+return obj
+}
+console.log(nestobj(myobj))
+
+````
 
 ## 千分位格式化小数
 ```javascript
- const number = 12343.96
-        function fomat(number) {
-            let index = String(number).indexOf('.')
-            let arr = String(number).split('.')
-            let pos
-            let oparr = []
-            if (index === -1) {
-                pos = number.length - 3
-                oparr = arr
-            }
-            else {
-                pos = arr[0].length - 3
-                oparr = arr[0].split('')
-            }
-            while (pos >= 0) {
-                oparr.splice(pos, 0, ',')
-                pos -= 3
-            }
-            console.log('oparr', oparr)
+const number = 12343.96
+       function fomat(number) {
+           let index = String(number).indexOf('.')
+           let arr = String(number).split('.')
+           let pos
+           let oparr = []
+           if (index === -1) {
+               pos = number.length - 3
+               oparr = arr
+           }
+           else {
+               pos = arr[0].length - 3
+               oparr = arr[0].split('')
+           }
+           while (pos >= 0) {
+               oparr.splice(pos, 0, ',')
+               pos -= 3
+           }
+           console.log('oparr', oparr)
 
-            return arr[1] ? oparr.join('') + '.' + arr[1] : oparr.join('')
-        }
-        console.log('format', fomat(number))
-        console.log('format', fomat(123456789))
-        console.log('format', fomat(654321))
-        console.log('format', fomat(1314520.134))
-        console.log('format', fomat(15679.24))
-        console.log('format', fomat(16579.46))
-```
+           return arr[1] ? oparr.join('') + '.' + arr[1] : oparr.join('')
+       }
+       console.log('format', fomat(number))
+       console.log('format', fomat(123456789))
+       console.log('format', fomat(654321))
+       console.log('format', fomat(1314520.134))
+       console.log('format', fomat(15679.24))
+       console.log('format', fomat(16579.46))
+````
 
-## 手写实现call函数
+## 手写实现 call 函数
 
 ```javascript
-
 Function.prototype.myCall = function (context = window, ...args) {
-  if (typeof this !== 'function') {
-    throw new TypeError('myCall is not a function');
+  if (typeof this !== "function") {
+    throw new TypeError("myCall is not a function")
   }
-  context.tempFunc = this;
-  const result = context.tempFunc(...args);
-  delete context.tempFunc;
-  return result;
-};
+  context.tempFunc = this
+  const result = context.tempFunc(...args)
+  delete context.tempFunc
+  return result
+}
 
-Function.prototype.mybind = function(context,...args){
-  return function(...callargs){
-    return this.myCall(context,...args,...callargs)
+Function.prototype.mybind = function (context, ...args) {
+  return function (...callargs) {
+    return this.myCall(context, ...args, ...callargs)
+  }
+}
+```
+
+## 异步图片加载函数
+
+```javascript
+function loadingImage(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => {
+      resolve("success")
+    }
+    img.onerror = () => {
+      reject("error")
+    }
+    img.src = url
+  })
+}
+```
+
+## 正则表达式匹配函数
+
+```javascript
+// 实现一个正则表达式匹配函数
+function myTemplateFunction(template, data) {
+  const regex = /\${(.*?)}/g
+  let result = template
+  while ((match = regex.exec(template)) !== null) {
+    console.log("match", match)
+    let value = data[match[1]]
+    result = result.replace(match[0], value)
+    console.log(result)
+  }
+  return result
+}
+const template = "Hello, ${name} and ${age} years old."
+const data = { name: "John", age: 30 }
+console.log(myTemplateFunction(template, data))
+```
+
+## 实现 Promise.then
+
+```javascript
+class Promise {
+  constructor(executor) {
+    this.status = "pending"
+    this.value = undefined
+    this.reason = undefined
+    this.onResolvedCallbacks = []
+    this.onRejectedCallbacks = []
+
+    const resolve = (value) => {
+      if (this.status === "pending") {
+        this.status = "fulfilled"
+        this.value = value
+        this.onResolvedCallbacks.forEach((fn) => fn())
+      }
+    }
+
+    const reject = (reason) => {
+      if (this.status === "pending") {
+        this.status = "rejected"
+        this.reason = reason
+        this.onRejectedCallbacks.forEach((fn) => fn())
+      }
+    }
+
+    try {
+      executor(resolve, reject) // 将 resolve 和 reject 传递给 executor
+    } catch (error) {
+      reject(error) // 如果 executor 抛出异常，调用 reject
+    }
+  }
+
+  then(onFulfilled, onRejected) {
+    if (this.status === "fulfilled") {
+      onFulfilled(this.value)
+    }
+
+    if (this.status === "rejected") {
+      onRejected(this.reason)
+    }
+
+    if (this.status === "pending") {
+      this.onResolvedCallbacks.push(() => onFulfilled(this.value))
+      this.onRejectedCallbacks.push(() => onRejected(this.reason))
+    }
   }
 }
 ```

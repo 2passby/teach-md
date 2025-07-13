@@ -1,52 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <script>
-        setTimeout(() => {
-            console.log(1);
-        }, 0);
-
-        new Promise((resolve) => {
-            console.log(2);
-            resolve();
-            console.log(3);
-        }).then(() => {
-            console.log(4);
-        });
-
-        const promise2 = new Promise(async (resolve) => {
-            console.log(await resolve(5));
-            console.log(6);
-        });
-
-        async function test() {
-            console.log(7);
-            console.log(await promise2);
-            console.log(8);
+      //实现一个简易的Promise
+      class MyPromise {
+        constructor(executor) {
+          this.value = undefined
+          this.reason = undefined
+          this.status = "pending"
+          this.ResolveFunction = []
+          this.ErrorFunction = []
+          const resolve = (value) => {
+            if (this.status === "pending") {
+              this.status = "resolve"
+              this.value = value
+              this.ResolveFunction.forEach((fn) => fn())
+            }
+          }
+          const reject = (reason) => {
+            if (this.status === "pending") {
+              this.status = "reject"
+              this.reason = reason
+              this.ErrorFunction.forEach((fn) => fn())
+            }
+          }
+          try {
+            executor(resolve, reject)
+          } catch (err) {
+            reject("error")
+          }
         }
-
-        test();
-        console.log(9);
+        then(fullfilled, rejectfn) {
+          if (this.status === "resolve") {
+            fullfilled(this.value)
+          } else if (this.status === "reject") {
+            rejectfn(this.reason)
+          } else {
+            this.ResolveFunction.push(fullfilled(this.value))
+            this.ErrorFunction.push(rejectfn(this.reason))
+          }
+        }
+      }
     </script>
-    <div style="width: 200px; height: 200px; background-color: yellow;"></div>
+    <div style="width: 200px; height: 200px; background-color: yellow"></div>
     <div class="my"></div>
-</body>
-<style>
+  </body>
+  <style>
     .my {
-        width: 0;
-        height: 0;
-        border-bottom: 50px solid transparent;
-        border-top: 50px solid transparent;
-        border-left: 50px solid red;
-        border-right: 50px solid transparent;
+      width: 0;
+      height: 0;
+      border-bottom: 50px solid transparent;
+      border-top: 50px solid transparent;
+      border-left: 50px solid red;
+      border-right: 50px solid transparent;
     }
-</style>
-
+  </style>
 </html>
