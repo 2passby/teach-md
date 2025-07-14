@@ -917,3 +917,100 @@ class Promise {
   }
 }
 ```
+## 六种继承实现
+## Js实现6种继承
+
+```javascript
+
+ // js实现六种继承
+        
+        // 1.原型链继承  缺点: 多个子类可以修改父类引用类型的值,子类不能向父类构造函数传值
+        function person(age){
+            this.age = age
+        }
+
+        function student(name){
+            this.name = name
+        }
+
+        student.prototype = new person()
+
+        let hyd = new student('hyd')
+        console.log('hyd',hyd)
+
+        // 2.函数式继承,子类无法使用父类身上的方法
+        function person(age){
+            this.age = age
+        }
+        person.prototype.print = function(){
+            console.log('this-name',this.age)
+        }
+        function student(name,...args){
+            person.call(this,...args)
+            this.name = name
+        }
+
+        let swj = new student('hyd',18)
+        console.log('swj',swj)
+
+        //3.组合式继承 , 完美解决问题,就是调了两次构造函数
+        
+        function  person(age){
+            this.age = age
+        }
+        person.prototype.myage = function(){
+            console.log('this-age',this.age)
+        }
+        function student(name,...args){
+            person.call(this,...args)
+            this.name = name
+        }
+        student.prototype = new person()
+
+        let wax = new student('wax',22)
+        //4. 原型式继承 ,缺点: 多个子类可以修改父类引用类型的值
+        function person(age){
+            this.age = 18
+        }
+        function student(name){
+            this.name = name
+        }
+        student.prototype = Object.create(person.prototype)
+
+        let wsp = new student('wsp')
+        //寄生继承  完美解决问题
+        function person(age){
+            this.age = age
+        }
+        person.prototype.myagewhy = function(){
+            console.log('why',this.age)
+        }
+        function student(name,...args){
+            person.call(this,...args)
+            this.name = name
+        }
+        student.prototype = Object.create(person.prototype)
+
+        let wy = new student('wy',18)
+        //class 继承
+        class Person{
+            constructor(age){
+                this.age = age
+            }
+            getage(){
+                console.log('age',this.age)
+            }
+            getage2(){
+                this.getage()
+            }
+        }
+        class student extends Person{
+            constructor(name,age){
+                super(age)
+                this.name = name
+            }
+        }
+        let yyd = new student('yyd',23)
+
+
+```
