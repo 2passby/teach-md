@@ -481,8 +481,11 @@ axios拦截器分为请求拦截器和响应拦截器：
 
 ## 事件循环Event Loop
 
- 浏览器的事件循环：执行js代码的时候，遇见同步任务，直接推入调用栈中执行，遇到异步任务，将该任务挂起，等到异步任务有返回之后推入到任务队列中，当调用栈中的所有同步任务全部执行完成，将任务队列中的任务按顺序一个一个的推入并执行，重复执行这一系列的行为。  异步任务又分为宏任务和微任务。 宏任务：任务队列中的任务称为宏任务，每个宏任务中都包含了一个微任务队列。 微任务：等宏任务中的主要功能都完成后，渲染引擎不急着去执行下一个宏任务，而是执行当前宏任务中的微任务 宏任务包含：执行script标签内部代码、setTimeout/setInterval、ajax请求、postMessageMessageChannel、setImmediate，I/O（Node.js） 微任务包含：Promise、MutonObserver、Object.observe、process.nextTick（Node.js）  
-
+ 浏览器的事件循环：执行js代码的时候，遇见同步任务，直接推入调用栈中执行，遇到异步任务，将该任务挂起，等到异步任务有返回之后推入到任务队列中，当调用栈中的所有同步任务全部执行完成，将任务队列中的任务按顺序一个一个的推入并执行，重复执行这一系列的行为。  异步任务又分为宏任务和微任务。 宏任务：任务队列中的任务称为宏任务，每个宏任务中都包含了一个微任务队列。 微任务：等宏任务中的主要功能都完成后，渲染引擎不急着去执行下一个宏任务，而是执行当前宏任务中的微任务 宏任务包含：执行script标签内部代码、setTimeout/setInterval、ajax请求（xhr的回调）、postMessageMessageChannel、setImmediate，I/O（Node.js） 微任务包含：Promise、MutonObserver、Object.observe、process.nextTick（Node.js）
+requestAnimationFrame ：它是一个特殊的宏任务，会在微任务队列执行完后、下一次浏览器重绘之前触发
+xhr的回调函数是onload，是一个宏任务
+fetch的回调函数是promise 是一个微任务
+axios是基于promise实现的，虽然底层实现是一个xhr，但是这不影响其回调的任务类型，也是一个微任务
 ## 什么是跨域，如何解决跨域问题
 
  跨域：受浏览器同源策源（即协议，域名，端口号必须一致是浏览器的一种安全模式）的影响不能执行其他网站的脚本 解决的办法：前端：1.利用script中src属性发送jsonp请求但是这种方式只支持get请求无法解决其他的请求类型 2.前端配置一个代理服务器（proxy）代替浏览器去发送请求:因为服务器与服务器之间是可以通信的不受同源策略的影响。3. 服务端：服务端通过配置cors来解决跨域，配置响应头：setHeader(access-control-allow-origin，对应的域名) 

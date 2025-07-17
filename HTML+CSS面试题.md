@@ -182,3 +182,8 @@ CSS 中伪类（Pseudo-class）和伪元素（Pseudo-element）的核心区别�
 视口设置 ：<meta name="viewport" content="width=device-width, initial-scale=1.0"> 保证网页在移动设备上良好显示，提升移动端用户体验，间接有利于 SEO。
 网页描述 ：<meta name="description" content="网页描述内容"> 为网页提供简介，虽不直接影响排名，但吸引用户点击，提高点击率，间接助力 SEO。
 关键词（可选） ：<meta name="keywords" content="关键词列表"> 曾对 SEO 重要，现虽作用减弱，但合理设置仍可辅助搜索引擎理解网页主题。
+
+## JWT
+JWT（JSON Web Token）是一种开放标准（RFC 7519），用于在网络应用之间安全地传递信息。它通常用于身份验证和授权场景，因为它可以让服务器验证用户身份并生成一个 token，客户端可以将这个 token 用于后续请求来证明自己的身份
+头部是一个 JSON 对象，包含两部分信息：alg（算法）和typ（类型）。typ字段的值通常是JWT，表示这是一个 JSON Web Token,随后利用base64对其进行编码生成字符，载荷用来标注用户的信息，包括时间戳，用户id，过期时间，签发时间等
+将包含声明的 JSON 对象进行 Base64Url 编码，对数据进行加密，保证头部信息与载荷的完整性最后形成最终的token
